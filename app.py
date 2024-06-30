@@ -23,10 +23,11 @@ from webauthn.helpers.structs import (
     AuthenticatorAssertionResponse,
 )
 
-app = Flask(__name__)
+application = Flask(__name__)
+app = application
 # cors = CORS(app, origins=['http://localhost:3000'])
-cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
-
+# cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 def generate_random_challenge(length: int = 32) -> bytes:
     return os.urandom(length)
@@ -34,7 +35,11 @@ def generate_random_challenge(length: int = 32) -> bytes:
 def bytes_to_base64url(val: bytes) -> str:
     return base64.urlsafe_b64encode(val).decode('utf-8').rstrip('=')
 
-@app.route('/generate_registration_options', methods=['POST'])
+@application.route('/')
+def hello_world():
+    return "Success Elastic BeanStalk Hello World"
+
+@application.route('/generate_registration_options', methods=['POST'])
 def generate_complex_options():
     logging.info("generate_complex_options Start")
     logging.info(f"Headers: {request.headers}")
@@ -68,7 +73,7 @@ def generate_complex_options():
     return options_to_json(complex_registration_options)
 
 
-@app.route('/verify_registration', methods=['POST'])
+@application.route('/verify_registration', methods=['POST'])
 @cross_origin()
 def verify_registration():
     logging.info("verify_registration Start")
@@ -112,7 +117,7 @@ def verify_registration():
     logging.info("verify_registration End")
     return jsonify(response_dict)
 
-@app.route('/generate_auth_options', methods=['POST'])
+@application.route('/generate_auth_options', methods=['POST'])
 @cross_origin()
 def generate_auth_options():
     logging.info("generate_authentication_options Start")
@@ -138,7 +143,7 @@ def generate_auth_options():
     return options_to_json(complex_authentication_options)
 
 
-@app.route('/verify_authentication_response', methods=['POST'])
+@application.route('/verify_authentication_response', methods=['POST'])
 @cross_origin()
 def verify_authentication():
     logging.info("verify_authentication Start")
