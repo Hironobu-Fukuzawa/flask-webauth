@@ -184,10 +184,11 @@ def verify_authentication():
         "credential_device_type": authentication_verification.credential_device_type,
         "credential_backed_up": authentication_verification.credential_backed_up,
     }
-    
+
     logging.info("verify_registration End")
     return jsonify(response_dict)
 
-# if __name__ == '__main__':
-#     logging.basicConfig(level=logging.INFO)
-#     app.run(host='0.0.0.0', port=8000, debug=True)
+if __name__ == '__main__':
+    # logging.basicConfig(level=logging.INFO)
+    # app.run(host='0.0.0.0', port=8000, debug=True)
+    application.run(ssl_context=('cert.pem', 'key.pem'))
