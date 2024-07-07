@@ -27,7 +27,8 @@ application = Flask(__name__)
 app = application
 # cors = CORS(app, origins=['http://localhost:3000'])
 # cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
-cors = CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+# cors = CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+cors = CORS(app, resources={r"/*": {"origins": "https://www.nextgenauth.net"}}, supports_credentials=True)
 
 def generate_random_challenge(length: int = 32) -> bytes:
     return os.urandom(length)
