@@ -23,6 +23,7 @@ from webauthn.helpers.structs import (
     AuthenticatorAssertionResponse,
 )
 
+logging.basicConfig(level=logging.INFO)
 application = Flask(__name__)
 app = application
 # cors = CORS(app, origins=['http://localhost:3000'])
@@ -44,8 +45,9 @@ def hello_world():
 @cross_origin()
 def generate_complex_options():
     logging.info("generate_complex_options Start")
-    logging.info(f"Headers: {request.headers}")
-    logging.info(f"Body: {request.data}")
+    # logging.info(f"Headers: {request.headers}")
+    # logging.info(f"Body: {request.data}")
+    logging.info(f"Body: {request.json}")
     data = request.json
     complex_registration_options = generate_registration_options(
         rp_id=data["rp_id"],
@@ -53,12 +55,12 @@ def generate_complex_options():
         user_id=data["user_id"].encode('utf-8'),
         user_name=data["user_name"],
         user_display_name=data["user_display_name"],
-        attestation=AttestationConveyancePreference.DIRECT,
-        # authenticator_selection=AuthenticatorSelectionCriteria(
-        #     # authenticator_attachment=AuthenticatorAttachment.PLATFORM, # only device
-        #     authenticator_attachment=AuthenticatorAttachment.CROSS_PLATFORM,
-        #     # resident_key=ResidentKeyRequirement.REQUIRED,
-        # ),
+        # attestation=AttestationConveyancePreference.DIRECT,
+        attestation=AttestationConveyancePreference.INDIRECT,
+        authenticator_selection=AuthenticatorSelectionCriteria(
+            authenticator_attachment=AuthenticatorAttachment.CROSS_PLATFORM,
+            user_verification=UserVerificationRequirement.REQUIRED,
+        ),        
         challenge=generate_random_challenge(),
         exclude_credentials=[
             PublicKeyCredentialDescriptor(id=b"1234567892"),
@@ -191,5 +193,4 @@ def verify_authentication():
     return jsonify(response_dict)
 
 if __name__ == '__main__':
-    # logging.basicConfig(level=logging.INFO)
-    app.run()
+    app.run(debug=True)
