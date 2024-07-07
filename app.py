@@ -188,7 +188,6 @@ def verify_authentication():
     logging.info("verify_registration End")
     return jsonify(response_dict)
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
     # logging.basicConfig(level=logging.INFO)
-    # app.run(host='0.0.0.0', port=8000, debug=True)
-    # application.run(ssl_context=('cert.pem', 'key.pem'))
+    app.run()
