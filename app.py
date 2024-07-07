@@ -56,7 +56,7 @@ def generate_complex_options():
         user_name=data["user_name"],
         user_display_name=data["user_display_name"],
         # attestation=AttestationConveyancePreference.DIRECT,
-        attestation=AttestationConveyancePreference.INDIRECT,
+        attestation=AttestationConveyancePreference.NONE,
         authenticator_selection=AuthenticatorSelectionCriteria(
             authenticator_attachment=AuthenticatorAttachment.CROSS_PLATFORM,
             user_verification=UserVerificationRequirement.REQUIRED,
