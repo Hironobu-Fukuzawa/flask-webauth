@@ -27,7 +27,7 @@ application = Flask(__name__)
 app = application
 # cors = CORS(app, origins=['http://localhost:3000'])
 # cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
-CORS(app, resources={r"/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 def generate_random_challenge(length: int = 32) -> bytes:
     return os.urandom(length)
@@ -40,6 +40,7 @@ def hello_world():
     return "Success Elastic BeanStalk Hello World"
 
 @application.route('/generate_registration_options', methods=['POST'])
+@cross_origin()
 def generate_complex_options():
     logging.info("generate_complex_options Start")
     logging.info(f"Headers: {request.headers}")
