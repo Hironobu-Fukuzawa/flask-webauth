@@ -49,10 +49,14 @@ def generate_complex_options():
     # logging.info(f"Body: {request.data}")
     logging.info(f"Body: {request.json}")
     data = request.json
+    
+    # user_idの値をバイト形式に変換
+    user_id = json.dumps(data["user_id"]).encode('utf-8')
+         
     complex_registration_options = generate_registration_options(
         rp_id=data["rp_id"],
         rp_name=data["rp_name"],
-        user_id=data["user_id"].encode('utf-8'),
+        user_id=user_id,
         user_name=data["user_name"],
         user_display_name=data["user_display_name"],
         # attestation=AttestationConveyancePreference.DIRECT,
